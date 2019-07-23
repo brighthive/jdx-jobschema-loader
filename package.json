@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "filepond": "^4.4.11",
+    "filepond-plugin-file-encode": "^2.1.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-filepond": "^7.0.1",
     "react-scripts": "3.0.1"
   },
   "scripts": {

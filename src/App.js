@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { FilePond, registerPlugin } from 'react-filepond';
+import 'filepond/dist/filepond.min.css';
+
+let fileReader;
+
+class App extends Component {
+  state = {
+    uploadedFileData: null,
+  }
+
+  // https://medium.com/@ilonacodes/front-end-shorts-how-to-read-content-from-the-file-input-in-react-17f49b293909
+  handleFileRead = (e) => {
+    const content = fileReader.result;
+    this.setState({
+      uploadedFileData: content
+    })
+  }
+
+  onChangeHandler=event=>{
+    let file = this.pond.getFile().file;
+    fileReader = new FileReader();
+    fileReader.onloadend= this.handleFileRead;
+    fileReader.readAsText(file);
+  }
+
+  render() {
+    return (
+      <div className="App">
+          <FilePond               
+            ref={ref => (this.pond = ref)}
+            onaddfile={() => this.onChangeHandler()}/>
+      </div>
+    );
+  }
 }
 
 export default App;
