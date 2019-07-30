@@ -2,10 +2,10 @@ import React from 'react';
 
 const JobElement = (props) => {
     return (
-        <tr key={props.index}>
-            <td>{props.dataKey}</td>
-            <td>{props.dataValue}</td>
-        </tr>
+        <div key={props.index}>
+            <h3>{props.dataKey}</h3>
+            <p>{props.dataValue}</p>
+        </div>
     )
 }
 
