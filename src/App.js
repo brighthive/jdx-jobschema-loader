@@ -19,8 +19,8 @@ class App extends Component {
 	}
 
 	onPondChangeHandler = (event) => {
-		let file = this.pond.getFile().file;
-		let fileReader = new FileReader();
+		const file = this.pond.getFile().file;
+		const fileReader = new FileReader();
 
 		// Assign a handler for the load event, i.e. a function that executes when the FileReader reads a file
 		// https://developer.mozilla.org/en-US/docs/Web/API/FileReader#Event_handlers
@@ -49,7 +49,7 @@ class App extends Component {
 	}
 
 	render() {
-		let jobTables;
+		const jobTables;
 		if (this.state.organization && this.state.jobPosting) {
 			jobTables = (
 				<React.Fragment>
