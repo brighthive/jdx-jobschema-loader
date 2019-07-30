@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import './App.css';
-
+import { Route, Switch } from 'react-router-dom';
 import { FilePond } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 
+import './App.css';
 import Job from './components/Job/Job';
 
 
 class App extends Component {
 	state = {
-		uploadedFileData: null,
-		organization: null,
-		jobPosting: null
+		uploadedFileData: null
 	}
 
 	onPondChangeHandler = (event) => {
@@ -41,18 +39,33 @@ class App extends Component {
 		this.setState({
 			jobData: jobData
 		})
+
+		console.log(this.props)
+		// this.props.history.push({
+        //     pathname: '/readable'
+        // });
 	}
 
 	render() {
 		return (
-			<Container className="App">
-				<FilePond
-					className="mt-4"               
-					ref={filePondElement => (this.pond = filePondElement)}
-					onaddfile={() => this.onPondChangeHandler()}/>
-				<Button disabled={!this.state.uploadedFileData} onClick={this.convertJobSchema}>Convert to Human Readable</Button>
-				{ this.state.jobData ? <Job data={this.state.jobData} /> : null }
-			</Container>
+			<div>
+				<Container className="App">
+					<FilePond
+						className="mt-4"               
+						ref={filePondElement => (this.pond = filePondElement)}
+						onaddfile={() => this.onPondChangeHandler()}/>
+					<Button 
+						disabled={!this.state.uploadedFileData} 
+						onClick={this.convertJobSchema}>Convert to Human Readable
+					</Button>
+					{/* { this.state.jobData ? <Job data={this.state.jobData} /> : null } */}
+	
+				</Container>
+				<Route path="/"/>
+				<Route 
+					path="/readable" 
+					render={ () => <Job data={this.state.jobData} /> }/>
+			</div>
 		);
 	}
 }
