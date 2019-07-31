@@ -14,13 +14,13 @@ class Loader extends Component {
 		uploadedFileData: null
 	}
 
-	onPondChangeHandler = (event) => {
+	onPondChangeHandler = () => {
 		const file = this.pond.getFile().file;
 		const fileReader = new FileReader();
 
 		// Assign a handler for the load event, i.e. a function that executes when the FileReader reads a file
 		// https://developer.mozilla.org/en-US/docs/Web/API/FileReader#Event_handlers
-		fileReader.onloadend = (event) => {
+		fileReader.onloadend = () => {
 			const fileContent = fileReader.result;
 			const contentAsObj = JSON.parse(fileContent)
 
@@ -39,13 +39,9 @@ class Loader extends Component {
                     <FilePond
                         className="mt-4"               
                         ref={filePondElement => (this.pond = filePondElement)}
-                        onaddfile={() => this.onPondChangeHandler()}/>
+                        onaddfile={() => this.props.onLoadFile(this.pond)}/>
                     <Button 
-                        disabled={!this.state.uploadedFileData} 
-                        onClick={() => this.props.onConvertJobSchema(this.state.uploadedFileData)}>Convert to Human Readable
-                    </Button>
-                    <Button 
-                        disabled={!this.state.uploadedFileData} 
+                        disabled={!this.props.jobDataFromStore} 
                         onClick={() => this.props.history.push({pathname: '/readable'})}>See Readable
                     </Button>
                 </Col>
@@ -54,10 +50,17 @@ class Loader extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        onConvertJobSchema: (uploadedFileData) => dispatch(convertJobSchema(uploadedFileData))
+        jobDataFromStore: state.jobData
     }
 }
 
-export default connect(null, mapDispatchToProps)(Loader);
+const mapDispatchToProps = dispatch => {
+    return {
+        onLoadFile: (pond) => dispatch(convertJobSchema(pond))
+        // onConvertJobSchema: (uploadedFileData) => dispatch(convertJobSchema(uploadedFileData))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Loader);
