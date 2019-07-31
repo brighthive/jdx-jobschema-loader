@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -8,8 +9,7 @@ class Job extends Component {
     render () {
         const organization = 0;
         const posting = 1;
-        const graph = this.props.data;
-              
+        const graph = this.props.jobDataFromStore;  
         // TODO: Figure out how to render this.
         // const benefitsList = graph[posting]['schema:jobBenefits'];
         // const benefits = benefitsList.map(benefit => {
@@ -62,7 +62,7 @@ class Job extends Component {
                     dataValue={humanReadable[key]} />
             )
         })
-        
+
         return (
             <Row>
                 <Col>
@@ -73,4 +73,10 @@ class Job extends Component {
     }
 };
 
-export default Job;
+const mapStateToProps = state => {
+    return {
+        jobDataFromStore: state.jobData
+    }
+}
+
+export default connect(mapStateToProps)(Job);
