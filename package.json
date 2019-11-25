@@ -25,6 +25,9 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "devDependencies": {
+    "eslint-utils": ">=1.4.1"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
