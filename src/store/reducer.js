@@ -2,13 +2,19 @@ const initialState = {
     jobData: null
  }
 
- const reducer = (state=initialState, action) => { 
-     if (action.type === 'CONVERT') {
-        return {
-            ...state,
-            jobData: action.jobData
-        }
-     }
+ const reducer = (state=initialState, action) => {
+     switch (action.type) {
+         case 'LOAD':
+             return {
+                 ...state,
+                 jobData: action.jobData
+             }
+        case 'REMOVE':
+             return {
+                 ...state,
+                 jobData: null
+             }
+     } 
 
      return state;
  }

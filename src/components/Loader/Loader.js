@@ -7,42 +7,21 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import { convertJobSchema } from '../../store/actionCreators';
+import { loadJobData, removeJobData } from '../../store/actionCreators';
 
-class Loader extends Component {
-    state = {
-		uploadedFileData: null
-	}
-
-	onPondChangeHandler = () => {
-		const file = this.pond.getFile().file;
-		const fileReader = new FileReader();
-
-		// Assign a handler for the load event, i.e. a function that executes when the FileReader reads a file
-		// https://developer.mozilla.org/en-US/docs/Web/API/FileReader#Event_handlers
-		fileReader.onloadend = () => {
-			const fileContent = fileReader.result;
-			const contentAsObj = JSON.parse(fileContent)
-
-			this.setState({
-				uploadedFileData: contentAsObj
-			})
-		}
-
-		fileReader.readAsText(file);
-	}
-    
+class Loader extends Component {    
     render () {
         return (
             <Row>
-                <Col>
+                <Col className="text-center">
                     <FilePond
                         className="mt-4"               
                         ref={filePondElement => (this.pond = filePondElement)}
+                        onremovefile={this.props.onRemoveFile}
                         onaddfile={() => this.props.onLoadFile(this.pond)}/>
                     <Button 
                         disabled={!this.props.jobDataFromStore} 
-                        onClick={() => this.props.history.push({pathname: '/readable'})}>See Readable
+                        onClick={() => this.props.history.push({pathname: '/readable'})}>See readable schema
                     </Button>
                 </Col>
             </Row>
@@ -58,8 +37,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onLoadFile: (pond) => dispatch(convertJobSchema(pond))
-        // onConvertJobSchema: (uploadedFileData) => dispatch(convertJobSchema(uploadedFileData))
+        onLoadFile: (pond) => dispatch(loadJobData(pond)),
+        onRemoveFile: () => dispatch(removeJobData())
     }
 }
 

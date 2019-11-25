@@ -1,12 +1,11 @@
-
 const jobSchemaAction = (data) => {
     return {
-        type: "CONVERT",
+        type: "LOAD",
         jobData: data
     }
 }
 
-export const convertJobSchema = (pond) => {
+export const loadJobData = (pond) => {
     return dispatch => {
         const file = pond.getFile().file;
 		const fileReader = new FileReader();
@@ -16,10 +15,15 @@ export const convertJobSchema = (pond) => {
 		fileReader.onloadend = () => {
 			const fileContent = fileReader.result;
             const contentAsObj = JSON.parse(fileContent)
-            
             dispatch(jobSchemaAction(contentAsObj['@graph']))
 		}
 
         fileReader.readAsText(file);      
+    }
+}
+
+export const removeJobData = () => {
+    return {
+        type: "REMOVE"
     }
 }
